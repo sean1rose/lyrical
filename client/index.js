@@ -7,15 +7,18 @@ import ApolloClient from 'apollo-client';
   // pass client as a prop
 import { ApolloProvider } from 'react-apollo';
 
+import SongList from './components/SongList';
+
 
 // create new instance of ApolloClient, and pass it to ApolloProvider
   // assumes that graphql is available on /graphql route
 const client = new ApolloClient({});
+// ^ STORE
 
 const Root = () => {
   return (
     <ApolloProvider client={client}>
-      <div>Lyrical</div>
+      <SongList />
     </ApolloProvider>
   )
 };
