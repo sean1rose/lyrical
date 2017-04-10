@@ -1,10 +1,14 @@
 // all logic for fetching a List of songs and rendering them on the screen
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
+import fetchSongsQuery from '../queries/fetchSongs';
 
 // GLUE layer b/w react and data-source - used to bond component w/ query
 import { graphql } from 'react-apollo';
   // data returned from query (after query is completed) is accessible via props (this.props.data.songs)
+
+// Link tag == anchor tag to navigate
+import { Link } from 'react-router';
 
 class SongList extends Component {
   renderSongs() {
@@ -22,27 +26,25 @@ class SongList extends Component {
     if (this.props.data.loading) { return <div>Loading...</div>}
     
     return (
-      <ul className="collection">
-        {this.renderSongs() }
-      </ul>
-    )
+      <div>
+        <ul className="collection">
+          {this.renderSongs() }
+        </ul>
+        <Link 
+          to="/songs/new"
+          className="btn-floating btn-large red right"
+        >
+        <i className="material-icons">add</i>
+        </Link>
+      </div>
+    );
   }
 }
-
-// define graphql query
-const query = gql`
-  {
-    songs {
-      title
-      id
-    }
-  }
-`;
 
 // graphql helper:
   // glue component to graphql query (sort of like redux) -> executes query when component is rendered
   // graphql returns a function, which is immediately invoked w/ 2nd set of parenthesis
-export default graphql(query)(SongList);
+export default graphql(fetchSongsQuery)(SongList);
 
 
 // Graphql strategy:
