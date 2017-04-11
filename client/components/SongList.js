@@ -1,6 +1,7 @@
 // all logic for fetching a List of songs and rendering them on the screen
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
+
 import fetchSongsQuery from '../queries/fetchSongs';
 
 // GLUE layer b/w react and data-source - used to bond component w/ query
@@ -11,12 +12,21 @@ import { graphql } from 'react-apollo';
 import { Link } from 'react-router';
 
 class SongList extends Component {
+  onSongDelete(id) {
+    // calls mutation to delete song, which expects an id, use promise + refetch to automatically re-execute associated queries (here query is associated w/ this component)
+    this.props.mutate({variables: { id } })
+      .then(() => this.props.data.refetch());
+  }
+  
   renderSongs() {
     // iterate over array of songs and return 1 jsx tag for each
-    return this.props.data.songs.map(song => {
+    return this.props.data.songs.map(( { id, title }) => {
       return (
-        <li key={song.id} className="collection-item">
-          {song.title}
+        <li key={id} className="collection-item">
+          {title}
+          <i className="material-icons" onClick={() => this.onSongDelete(id)} >
+          delete
+          </i>
         </li>
       );
     })
@@ -41,10 +51,25 @@ class SongList extends Component {
   }
 }
 
+
+// mutation for deleting a song:
+const mutation = gql`
+  mutation DeleteSong($id: ID) {
+    deleteSong(id: $id) {
+      id
+    }
+  }
+`;
+
+
 // graphql helper:
   // glue component to graphql query (sort of like redux) -> executes query when component is rendered
   // graphql returns a function, which is immediately invoked w/ 2nd set of parenthesis
-export default graphql(fetchSongsQuery)(SongList);
+export default graphql(mutation)(
+  // need to call it twice since have 2 mutations (fetch songs + delete song)
+    // make a helper using graphql w/ mutation, then immediately invoke it w/ the result of the 2nd graphql-mutation
+  graphql(fetchSongsQuery)(SongList)
+);
 
 
 // Graphql strategy:
