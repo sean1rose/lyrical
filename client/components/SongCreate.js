@@ -33,7 +33,7 @@ class SongCreate extends Component {
       refetchQueries: [{ query: fetchSongsQuery }]
     }).then(() => hashHistory.push('/'));
     // kick user ^ back to root route. hashistory obj is used by RR to keep track of navigation state
-    // but need apollo to RE-run query to get new updated song list with newly added song from this mutation
+    // ***but need apollo to RE-run fetchSongs query to get new updated song list with newly added song from this mutation (graphql doesn't automatically add and refresh, need to instruct it to do so)
   }
 
   render() {

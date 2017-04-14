@@ -1,3 +1,5 @@
+// this file sets up the APOLLO STORE
+
 import './style/style.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -18,7 +20,7 @@ import SongDetail from './components/SongDetail';
 // create new instance of ApolloClient, and pass it to ApolloProvider
   // assumes that graphql is available on /graphql route
 const client = new ApolloClient({});
-// ^ STORE
+// ^ **STORE**
 
 const Root = () => {
   return (

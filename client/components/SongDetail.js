@@ -4,14 +4,18 @@ import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import { Link } from 'react-router';
 
-// query...
+// fetchSong QUERY (used to grab a song and its lyrics - allows us to use just 1 query)!!!...
 import fetchSong from '../queries/fetchSong';
+// ***cuz of react-apollo, the query RETURNS DATA as this.props.data
+// can pass lyrics into LyricList (child) component
 
 import LyricCreate from './LyricCreate';
+import LyricList from './LyricList';
 
 class SongDetail extends Component {
   render() {
     const { song } = this.props.data;
+    // this.props.data is returning the data from our graphql query (fetchSong)
 
     if (!song) { return <div>Loading...</div>}
   
@@ -19,7 +23,8 @@ class SongDetail extends Component {
       <div>
         <Link to="/">Back</Link>
         <h3>{song.title}</h3>
-        <LyricCreate />
+        <LyricList lyrics={song.lyrics} />
+        <LyricCreate songId={this.props.params.id} />
       </div>
     );
   }
