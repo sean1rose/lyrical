@@ -20,10 +20,10 @@ class SongCreate extends Component {
   onSubmit(event) {
     event.preventDefault();
 
-    // MUTATION:
+    // MUTATION -> manipulates data 
     // call the query (along w/ config obj containing query variables)
       // this.state.title is the query/form input value -> pass into mutate function as query variable
-      // refetchQueries: takes array of queries that rerun after mutation is successfully executed
+      // refetchQueries to Refresh Data: takes array of queries that rerun after mutation is successfully executed
         // pass in [actual graphql query] -> **want to call fetchsongs query again (same query from SongList component) after submission, cuz Graphql doesn't automatically refresh list after 1 song is added**
         // need to use this method of updating because songlist component is unrelated to this component
     this.props.mutate({

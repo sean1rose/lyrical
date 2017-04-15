@@ -17,6 +17,7 @@ class SongDetail extends Component {
     const { song } = this.props.data;
     // this.props.data is returning the data from our graphql query (fetchSong)
 
+    // ***component tries to render 1 time before data is fetched - check to make sure data is available before consuming it
     if (!song) { return <div>Loading...</div>}
   
     return (
@@ -30,6 +31,7 @@ class SongDetail extends Component {
   }
 }
 
+// 1. write the query, 2. wrap w/ a graphql helper, 3) pass in the component that should receive that data
 // rendering a component wrapped by graphql helper, which knows props coming down into SongDetail component
   // options takes props intended for SongDetail, provides to the query when it's made (provides the id)
 export default graphql(fetchSong, {
